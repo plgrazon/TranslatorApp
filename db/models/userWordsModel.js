@@ -2,8 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  user: String,
-  words: Array,
+  // user: String,
+  words: String,
 });
 
-module.exports.userSchema = userSchema;
+const User = mongoose.model('User', userSchema);
+
+module.exports.User = User;

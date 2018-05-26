@@ -5,12 +5,17 @@ const bodyParser = require('body-parser');
 // database
 require('../db/config');
 
+// router
+const { router } = require('./router')
+
 const app = express();
 const PORT = 3000;
 
-app.use(express.static(path.join(__dirname, '../static')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( {extended: true} ));
+app.use(express.static(path.join(__dirname, '../static')));
+
+app.use('/api', router);
 
 app.listen(PORT, err => {
   if (err) {

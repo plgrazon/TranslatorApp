@@ -1,14 +1,18 @@
 import React from 'react';
+import TranslatorList from './TranslatorList';
 
 class App extends React.Component {
   constructor() {
     super();
+
+    this.state = {};
   }
 
   render() {
     return(
       <div>
-        <h1>translator</h1>
+        <h1>Translator</h1>
+        <TranslatorList />
       </div>
     )
   }
