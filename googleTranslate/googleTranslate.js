@@ -1,4 +1,4 @@
-// // Imports the Google Cloud client library
+// Imports the Google Cloud client library
 // const Translate = require('@google-cloud/translate');
 // const apiKey = require('../apiKey');
 // const projId = require('../apiKey').projId;
@@ -11,9 +11,9 @@
 // });
 //
 // // The text to translate
-// const text = 'Hello, world!';
+// // const text = 'Hello, world!';
 // // The target language
-// const target = 'ru';
+// // const target = 'ru';
 //
 // function translateTo(input, target) {
 //   translate
