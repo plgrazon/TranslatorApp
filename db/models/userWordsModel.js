@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  // user: String,
-  words: String,
+  text: String,
+  fromLang: String,
+  toLang: String
 });
 
 const User = mongoose.model('User', userSchema);

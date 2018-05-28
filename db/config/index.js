@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 
 const URI = 'mongodb://test:test@ds235850.mlab.com:35850/translate';
 
-const connection = mongoose.connect(URI, {}).then(() => {
-  console.log('connected to db');
-}).catch((err) => {
-  console.log('error: ', err);
-});
+const connection = mongoose.connect(URI, {})
+  .then(() => {
+    console.log('connected to db');
+  }).catch((err) => {
+    console.log('error: ', err);
+  });
 
 module.exports.connection = connection;
 

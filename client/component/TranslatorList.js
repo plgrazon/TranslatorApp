@@ -1,11 +1,6 @@
 import React from 'react';
 import WordEntry from './WordEntry';
 import axios from 'axios';
-import $ from 'jquery';
-
-//api helper:
-// const Translate = require('../../googleTranslate/googleTranslate');
-// const { translateTo } = require('../../googleTranslate/googleTranslate');
 
 class TranslatorList extends React.Component {
   constructor() {
@@ -13,12 +8,31 @@ class TranslatorList extends React.Component {
 
     this.state = {
       word: '',
-      translated: '',
-      words: ['test', 'sample']
+      words: []
     };
 
     this.handleDelete = this.handleDelete.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.handleGetTexts = this.handleGetTexts.bind(this);
+    // this.forceUpdate();
+  }
+
+  componentDidMount() {
+    // setInterval(() => this.handleGetTexts(), 1000);
+    this.handleGetTexts()
+  }
+
+  handleGetTexts() {
+    axios.get('api/user')
+    .then(({ data }) => {
+      console.log('data fetched ', data);
+      this.setState({
+        words: data.map(item => item.text)
+      })
+    })
+    .catch(err => {
+      console.log('error fetching from db');
+    });
   }
 
   handleInput(event) {
@@ -27,23 +41,11 @@ class TranslatorList extends React.Component {
     });
   }
 
-  // handleTranslate(event) {
-  //   event.preventDefault();
-  //
-  //   axios.post('/api/user', {
-  //     words: this.state.word
-  //   }).then(function(res) {
-  //     console.log('data POSTED: ', res);
-  //   }).catch(err => {
-  //     console.log('err POSTING');
-  //   });
-  // }
-
   handleSubmit(event) {
     event.preventDefault();
     event.target.reset();
 
-    axios.post('/user', {
+    axios.post('api/user', {
       text: this.state.word,
       fromLang:"en",
       toLang: "tl"
@@ -51,10 +53,6 @@ class TranslatorList extends React.Component {
       console.log('data POSTED: ', res);
     }).catch(err => {
       console.log('err POSTING');
-    });
-
-    this.setState({
-      words: [...this.state.words, this.state.word]
     });
   }
 
@@ -68,35 +66,6 @@ class TranslatorList extends React.Component {
     });
   }
 
-  // render() {
-  //   return(
-  //     <div>
-  //       <input
-  //         onChange={event => this.handleInput(event)}
-  //       ></input>
-  //       <button
-  //         onClick={event => this.handleSubmit(event)}
-  //       >submit</button>
-  //       <button
-  //         onClick={(event) => this.handleTranslate(event)}
-  //       >translate</button>
-  //       <h3>My Words</h3>
-  //         <div>
-  //           {
-  //             this.state.words.map((word, idx) => (
-  //               <WordEntry
-  //                 word={word}
-  //                 idx={idx}
-  //                 key={idx}
-  //                 handleDelete={this.handleDelete}
-  //               />
-  //             ))
-  //           }
-  //         </div>
-  //     </div>
-  //   )
-  // }
-
   render() {
     return(
       <div>
@@ -105,10 +74,12 @@ class TranslatorList extends React.Component {
         >
           <input
             onChange={event => this.handleInput(event)}
+            required
           ></input>
           <button>submit</button>
+          <button>clear</button>
         </form>
-          <h3>My Words</h3>
+          <h3>translations:</h3>
           <div>
             {
               this.state.words.map((word, idx) => (
